@@ -1,0 +1,15 @@
+{
+  "name": "homework",
+  "version": "1.0.0",
+  "description": "Small app for school homework",
+  "main": "index.js",
+  "repository": "https://github.com/ltanase77/homework",
+  "author": "Lucian Tanase",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.1"
+  }
+}
