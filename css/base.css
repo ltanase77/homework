@@ -42,7 +42,9 @@
     margin-bottom: 6px;
 }
 
-.luni, .marti, .miercuri, .joi, .vineri {
+.materie {
+    display: inline-block;
+    min-width: 20px;
     font-size: 1.15rem;
     font-style: italic;
     color: purple;

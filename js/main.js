@@ -3,19 +3,19 @@
 $(document).ready(function() {
 
     let classes = {
-        Luni: ["Engleză", "Desen", "Matematică", "Limba Română", "Opțional", "Dirigenție"],
-        Marti: ["Tehnologie", "Engleză",  "Română", "Istorie", "Franceză", "Liber"],
-        Miercuri: ["Limba Română", "TIC", "Matematică", "Geografie", "Educație Fizică", "Muzică"],
-        Joi: ["Matematică", "Religie", "Opțional", "Biologie", "Educație Civică", "Istorie"],
-        Vineri: ["Limba Română", "Franceză", "Educație Fizică", "Matematică", "Engleză", "Liber"]
-    };
-
-    let homeworks = {
         Luni: [],
         Marti: [],
         Miercuri: [],
         Joi: [],
         Vineri: []
+    };
+
+    let homeworks = {
+        Luni: {},
+        Marti: {},
+        Miercuri: {},
+        Joi: {},
+        Vineri: {}
     };
 
     if(window.localStorage) {
@@ -30,7 +30,6 @@ $(document).ready(function() {
         }
     }
 
-
     let model = {
         getAllSubjects: function() {
             return JSON.parse(localStorage.getItem("Materii"));
@@ -41,15 +40,11 @@ $(document).ready(function() {
             return daySubjects[day];
         },
 
-        setSubject: function(day, subject, newSubj) {
+        setSubject: function(day, index, newSubj) {
             let daySubjects = this.getDaySubjects(day);
             //console.log(daySubjects);
-            daySubjects.forEach((elem) => {
-                if (elem === subject) {
-                   let index = daySubjects.indexOf(elem);
-                   daySubjects[index] = newSubj;
-                }
-            });
+            daySubjects[index] = newSubj;
+            classes = this.getAllSubjects();
             classes[day] = daySubjects;
             localStorage.setItem('Materii', JSON.stringify(classes));
         },
@@ -61,30 +56,7 @@ $(document).ready(function() {
 
         setHomework: function(day, subject, content) {
             let homeworks = this.getAllHomeworks();
-            console.log(homeworks[day].length);
-            if (homeworks[day].length === 0) {
-                homeworks[day].push({subject: subject, content: content});
-                console.log ('primul element');
-            }
-            else {
-                for (let i = 0; i < homeworks[day].length; i++) {
-                    if (homeworks[day][i].subject === subject) {
-                        if (homeworks[day][i].content !== content) {
-                            homeworks[day][i].content = content;
-                            console.log('schimba doar continutul');
-                        }
-                    } else {
-                        var check = homeworks[day].length - 1;
-                        check += 1;
-                        console.log(check);
-                    }
-                }
-
-                if (check === homeworks[day].length) {
-                    homeworks[day].push({subject: subject, content: content});
-                    console.log ('un nou element');
-                }
-            }
+            homeworks[day][subject] = content;
             localStorage.setItem('Teme', JSON.stringify(homeworks));
         }
     };
@@ -92,10 +64,9 @@ $(document).ready(function() {
     let controller = {
         init: function() {
             //$('tr').sortable();
-            let initialValue;
+
             $('.icon-edit').on('click', function() {
                 let elem = $(this).prev();
-                initialValue = elem.text();
                 //console.log(elem);
                 elem.attr('contenteditable', true);
                 elem.css('borderBottom', '1px solid blue');
@@ -104,10 +75,14 @@ $(document).ready(function() {
            $('.icon-save').on('click', function() {
                 let elem = $(this).prev().prev();
                 let changedValue = elem.text();
-                let day = elem.attr('class');
+                let value = elem.attr('class').slice(0, -8);
+                let day = value.slice(0, -2);
+                //console.log(day);
+                let index = value.slice(-1);
+                //console.log(index);
                 day = day[0].toUpperCase() + day.slice(1).toLowerCase();
                 //console.log(day);
-                model.setSubject(day, initialValue, changedValue);
+                model.setSubject(day, index, changedValue);
                 elem.text(changedValue);
                 elem.attr('contenteditable', false);
                 elem.css('borderBottom', 'none');
@@ -124,10 +99,10 @@ $(document).ready(function() {
                let day = elem.parent().attr('id');
                day = day.substr(0, day.length - 2);
                day = day[0].toUpperCase() + day.slice(1).toLowerCase();
-               console.log(day);
+               //console.log(day);
                let subject = $(this).parent().prev().prev().children().first().text();
                subject.trim();
-               console.log(subject);
+               //console.log(subject);
                model.setHomework(day, subject, content);
                elem.attr('contenteditable', false);
            });
@@ -144,9 +119,9 @@ $(document).ready(function() {
             let days = Object.keys(subjects);
             //console.log(days);
             days.forEach(function(elem) {
-                let selector = elem.toLowerCase();
                 let daySubjects = subjects[elem];
-                let paragraphs = document.getElementsByClassName(selector);
+                //console.log(daySubjects);
+                let paragraphs = document.querySelectorAll(`span[class*="${elem.toLowerCase()}"]`);
                 //console.log(paragraphs);
                 for (let i = 0; i < daySubjects.length; i++) {
                     let text = document.createTextNode(daySubjects[i]);
@@ -162,15 +137,10 @@ $(document).ready(function() {
             days.forEach(function(elem) {
                let selector = elem.toLowerCase();
                let dayHomeworks = homeworks[elem];
+               //console.log(dayHomeworks.length);
                for (let i = 0; i < dayHomeworks.length; i++) {
-                   let subject = dayHomeworks[i].subject;
-                   $("." + selector).each(function() {
-                       let text = $(this).text();
-                       if (text === subject) {
-                           let div = $(this).parent().next().next().find(".card-body");
-                           div.append("<p>" + dayHomeworks[i].content + "</p>");
-                       }
-                   });
+                   let div = $("#" + selector + "_" + i).children().eq(2);
+                   div.append("<p>" + dayHomeworks[i].content + "</p>");
                }
             });
         }
