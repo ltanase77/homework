@@ -1,14 +1,15 @@
 'use strict';
 
-$(document).ready(function() {
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("js/worker.js")
+        .then((registration) => {
+            console.log("Service Worker registered with scope: ", registration.scope);
+        }).catch((error) => {
+            console.log("Service Worker registration failed:", error);
+        });
+}
 
-    let classes = {
-        Luni: [],
-        Marti: [],
-        Miercuri: [],
-        Joi: [],
-        Vineri: []
-    };
+$(document).ready(function() {
 
     let homeworks = {
         Luni: {},
@@ -20,8 +21,18 @@ $(document).ready(function() {
 
     if(window.localStorage) {
         if (!localStorage.getItem('Materii')) {
-            localStorage.setItem("Materii", JSON.stringify(classes));
-            console.log("Stocare materii initiale");
+            fetch("../json/classes.json").then(function(response) {
+                if (response.ok) {
+                    return response.json()
+                }
+                throw new Error('Network response was not ok.');
+            }).then(function(data) {
+                localStorage.setItem("Materii", JSON.stringify(data));
+                console.log("Stocare materii initiale");
+            }).catch(function(error) {
+                console.log("There has been a problem in retreiving the data: ", error.message);
+            });
+
         }
 
         if (!localStorage.getItem('Teme')) {
@@ -44,7 +55,7 @@ $(document).ready(function() {
             let daySubjects = this.getDaySubjects(day);
             //console.log(daySubjects);
             daySubjects[index] = newSubj;
-            classes = this.getAllSubjects();
+            let classes = this.getAllSubjects();
             classes[day] = daySubjects;
             localStorage.setItem('Materii', JSON.stringify(classes));
         },
@@ -132,15 +143,16 @@ $(document).ready(function() {
 
         displayHomeworks: function() {
             let homeworks = model.getAllHomeworks();
+            //console.log(homeworks);
             let days = Object.keys(homeworks);
-            console.log(days);
             days.forEach(function(elem) {
                let selector = elem.toLowerCase();
                let dayHomeworks = homeworks[elem];
-               //console.log(dayHomeworks.length);
-               for (let i = 0; i < dayHomeworks.length; i++) {
+               let keys = Object.keys(dayHomeworks);
+               //console.log(keys);
+               for (let i = 0; i < keys.length; i++) {
                    let div = $("#" + selector + "_" + i).children().eq(2);
-                   div.append("<p>" + dayHomeworks[i].content + "</p>");
+                   div.append("<p>" + dayHomeworks[keys[i]] + "</p>");
                }
             });
         }

@@ -2,7 +2,8 @@
 .header {
     margin: 1em 0;
     border-radius: 5px;
-    background: linear-gradient(to right, rgba(38,139,227,1) 0%, rgba(42,142,223,1) 100%);
+    background-image: url('../img/background.jpg');/*linear-gradient(to right, rgba(38,139,227,1) 0%, rgba(42,142,223,1) 100%);*/
+    background-repeat: repeat-x;
     color: ghostwhite;
 }
 .page-title {
@@ -13,6 +14,9 @@
    display: table;
 }
 
+span {
+    margin-right: 2px;
+}
 .selectable .ui-selecting {
     background: #FECA40;
 }

@@ -7,9 +7,14 @@
   "author": "Lucian Tanase",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "express": "^4.16.4",
     "jquery": "^3.3.1",
-    "popper.js": "^1.14.1"
+    "popper.js": "^1.14.1",
+    "pug": "^2.0.3"
   }
 }

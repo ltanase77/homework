@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Homework</title>
     <link href="static/css/normalize.css" rel="stylesheet" />
-    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" rel="stylesheet" />
     <link href="static/css/base.css" rel="stylesheet">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
@@ -18,7 +18,7 @@
 <body>
     <main class="container-fluid">
         <div class="header">
-            <h2 class="page-title">ORARUL LUI MATEI</h2>
+            <h2 class="page-title" style="color: orangered;">ORARUL LUI MATEI</h2>
         </div>
         <div class="table-responsive">
             <table class=" schedule table  table-bordered table-hover">
@@ -535,47 +535,5 @@
             </table>
         </div>
     </main>
-    <script>
-        let request = window.indexedDB.open("hmw-database", 2);
-        request.onerror = function(event) {
-            console.log("Database error: ", event.target.error);
-        };
-        /*request.onsuccess = function(event) {
-            let db = event.target.result;
-            /!*console.log("Database: ", db);
-            console.log("Object store names: ", db.objectStoreNames);*!/
-            let usersData = [
-                {"name": "Matei Tanase", "school": "Scoala nr. 117", "class": "VI B"},
-                {"name": "Vlad Cristoiu", "school": "Scoala nr. 56", "class": "V C"}
-            ];
-            let userTransaction = db.transaction("users", "readwrite");
-            userTransaction.onerror = function(event) {
-                console.log("Error: ", event.target.error);
-            };
-            let usersStore = userTransaction.objectStore("users");
-            for (let i = 0; i < usersData.length; i++) {
-                usersStore.add(usersData[i]);
-            }
-        };*/
-
-        request.onsuccess= function(event) {
-            let db = event.target.result;
-            let userTransaction = db.transaction("users");
-            let usersStore = userTransaction.objectStore("users");
-            let request = usersStore.get("Matei Tanase");
-            request.onsuccess = function(event) {
-                let user = event.target.result;
-                console.log("Name: ", user.name);
-                console.log("Clasa: ", user.class);
-                console.log("Scoala: ", user.school);
-            }
-
-        };
-
-        request.onupgradeneeded = function(event) {
-            let db = event.target.result;
-            db.createObjectStore("users", {keyPath: "name"})
-        }
-    </script>
 </body>
 </html>

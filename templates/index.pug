@@ -1,0 +1,35 @@
+extends layout
+block content
+    main.container-fluid
+        .header
+            h2.page-title ORARUL LUI MATEI
+        .table-responsive
+            table.schedule.table.table-bordered.table-hover
+                thead
+                    tr
+                        th(scope="col") #
+                        th.text-center.text-uppercase(scope="col") Luni
+                        th.text-center.text-uppercase(scope="col") Marti
+                        th.text-center.text-uppercase(scope="col") Miercuri
+                        th.text-center.text-uppercase(scope="col") Joi
+                        th.text-center.text-uppercase(scope="col") Vineri
+                tbody
+                    each num in [1,2,3,4,5,6]
+                        tr
+                            th(scope="row")=num
+                            each day in days
+                                td.text-center
+                                    .subject
+                                        span.materie(class= day + "_" + num)
+                                        span.icon-edit
+                                            i.fas.fa-edit
+                                        span.icon-save
+                                            i.fas.fa-save
+                                    button.btn.btn-outline-primary.btn-sm(data-toggle="collapse" href="#" + day + "_" + num role="button" aria-expanded="false" aria-controls= day + "_" + num) Homework
+                                    .collapse(id= day + "_" + num)
+                                        span.homework-edit
+                                            i.fas.fa-edit
+                                        span.homework-save
+                                            i.fas.fa-save
+                                        .card.card-body
+                                        p Inserati tema pentru aceasta materie

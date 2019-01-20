@@ -1,0 +1,7 @@
+{
+  "Luni" : ["Română", "Engleză", "Desen", "Geografie", "Matematică", "Liber"],
+  "Marti" : ["Română", "Tehnologie", "Franceză", "Biologie", "Dirigenție", "Sport"],
+  "Miercuri" : ["Română", "Muzică", "Matematică", "Fizică", "Educțaie Civică", "Liber"],
+  "Joi" : ["Astronomie", "Religie", "Sport", "Biologie", "Matematică", "TIC"],
+  "Vineri" : ["Istorie", "Fizică", "Matematică", "Română", "Franceză", "Engleză"]
+}
