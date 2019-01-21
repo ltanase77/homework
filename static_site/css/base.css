@@ -1,0 +1,56 @@
+
+.header {
+    margin: 1em 0;
+    border-radius: 5px;
+    background-image: url('../img/background.jpg');/*linear-gradient(to right, rgba(38,139,227,1) 0%, rgba(42,142,223,1) 100%);*/
+    background-repeat: repeat-x;
+    color: ghostwhite;
+}
+.page-title {
+    padding: 0.4em 0;
+    text-align: center;
+}
+.schedule {
+   display: table;
+}
+
+span {
+    margin-right: 2px;
+}
+.selectable .ui-selecting {
+    background: #FECA40;
+}
+.selectable .ui-selected {
+    background: #F39814; color: white;
+}
+.collapse {
+    margin-top: 10px;
+    /*max-width: 300px;*/
+}
+
+.card-body {
+    border-top: 1px solid orange;
+    padding: 0.25rem;
+}
+
+.btn-sm {
+    padding: 0.10rem;
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+}
+
+.icon-edit, .icon-save, .homework-edit, .homework-save {
+    cursor: pointer;
+}
+.subject {
+    margin-bottom: 6px;
+}
+
+.materie {
+    display: inline-block;
+    min-width: 20px;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: purple;
+}
+
