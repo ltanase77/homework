@@ -127,6 +127,7 @@ $(document).ready(function() {
     let view = {
         displaySubjects: function() {
             let subjects = model.getAllSubjects();
+            console.log(subjects);
             let days = Object.keys(subjects);
             //console.log(days);
             days.forEach(function(elem) {

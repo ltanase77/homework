@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "run-dev": "nodemon server.js"
+    "start-dev": "nodemon server.js"
 
   },
   "dependencies": {
