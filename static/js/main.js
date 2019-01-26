@@ -127,7 +127,7 @@ $(document).ready(function() {
     let view = {
         displaySubjects: function() {
             let subjects = model.getAllSubjects();
-            console.log(subjects);
+            //console.log(subjects);
             let days = Object.keys(subjects);
             //console.log(days);
             days.forEach(function(elem) {
@@ -146,14 +146,17 @@ $(document).ready(function() {
             let homeworks = model.getAllHomeworks();
             //console.log(homeworks);
             let days = Object.keys(homeworks);
+            //console.log(days);
             days.forEach(function(elem) {
                let selector = elem.toLowerCase();
                let dayHomeworks = homeworks[elem];
-               let keys = Object.keys(dayHomeworks);
-               //console.log(keys);
-               for (let i = 0; i < keys.length; i++) {
-                   let div = $("#" + selector + "_" + i).children().eq(2);
-                   div.append("<p>" + dayHomeworks[keys[i]] + "</p>");
+               //console.log(dayHomeworks);
+               let subjects = Object.keys(dayHomeworks);
+               // console.log(subjects);
+               for (let i = 0; i < subjects.length; i++) {
+                   let div = $("#" + selector + "_" + (i + 1)).children().eq(2);
+                   // console.log(div);
+                   div.append("<p>" + dayHomeworks[subjects[i]] + "</p>");
                }
             });
         }
