@@ -10,20 +10,19 @@ if ("serviceWorker" in navigator) {
 }
 
 $(document).ready(function() {
-
-    let homeworks = {
+    const homeworks = {
         Luni: {},
         Marti: {},
         Miercuri: {},
         Joi: {},
-        Vineri: {}
+        Vineri: {},
     };
 
-    if(window.localStorage) {
+    if (window.localStorage) {
         if (!localStorage.getItem('Materii')) {
             fetch("../json/classes.json").then(function(response) {
                 if (response.ok) {
-                    return response.json()
+                    return response.json();
                 }
                 throw new Error('Network response was not ok.');
             }).then(function(data) {
@@ -32,30 +31,28 @@ $(document).ready(function() {
             }).catch(function(error) {
                 console.log("There has been a problem in retreiving the data: ", error.message);
             });
-
         }
-
         if (!localStorage.getItem('Teme')) {
             localStorage.setItem('Teme', JSON.stringify(homeworks));
             console.log("Stocare teme initiale");
         }
     }
 
-    let model = {
+    const model = {
         getAllSubjects: function() {
             return JSON.parse(localStorage.getItem("Materii"));
         },
 
         getDaySubjects: function(day) {
-            let daySubjects = this.getAllSubjects();
+            const daySubjects = this.getAllSubjects();
             return daySubjects[day];
         },
 
         setSubject: function(day, index, newSubj) {
-            let daySubjects = this.getDaySubjects(day);
-            //console.log(daySubjects);
+            const daySubjects = this.getDaySubjects(day);
+            // console.log(daySubjects);
             daySubjects[index] = newSubj;
-            let classes = this.getAllSubjects();
+            const classes = this.getAllSubjects();
             classes[day] = daySubjects;
             localStorage.setItem('Materii', JSON.stringify(classes));
         },
@@ -66,100 +63,100 @@ $(document).ready(function() {
 
 
         setHomework: function(day, subject, content) {
-            let homeworks = this.getAllHomeworks();
+            const homeworks = this.getAllHomeworks();
             homeworks[day][subject] = content;
             localStorage.setItem('Teme', JSON.stringify(homeworks));
-        }
+        },
     };
 
-    let controller = {
+    const controller = {
         init: function() {
-            //$('tr').sortable();
+            // $('tr').sortable();
 
             $('.icon-edit').on('click', function() {
-                let elem = $(this).prev();
-                //console.log(elem);
+                const elem = $(this).prev();
+                // console.log(elem);
                 elem.attr('contenteditable', true);
                 elem.css('borderBottom', '1px solid blue');
             });
 
-           $('.icon-save').on('click', function() {
-                let elem = $(this).prev().prev();
-                let changedValue = elem.text();
-                let value = elem.attr('class').slice(0, -8);
+            $('.icon-save').on('click', function() {
+                const elem = $(this).prev().prev();
+                const changedValue = elem.text();
+                const value = elem.attr('class').slice(0, -8);
                 let day = value.slice(0, -2);
-                //console.log(day);
-                let index = value.slice(-1);
-                //console.log(index);
+                // console.log(day);
+                const index = value.slice(-1);
+                // console.log(index);
                 day = day[0].toUpperCase() + day.slice(1).toLowerCase();
-                //console.log(day);
+                // console.log(day);
                 model.setSubject(day, index, changedValue);
                 elem.text(changedValue);
                 elem.attr('contenteditable', false);
                 elem.css('borderBottom', 'none');
-           });
+            });
 
-           $('.homework-edit').on('click', function() {
-                let elem = $(this).next().next();
+            $('.homework-edit').on('click', function() {
+                const elem = $(this).next().next();
                 elem.attr('contenteditable', true);
-           });
+            });
 
-           $('.homework-save').on('click', function() {
-               let elem = $(this).next();
-               let content = elem.text();
-               let day = elem.parent().attr('id');
-               day = day.substr(0, day.length - 2);
-               day = day[0].toUpperCase() + day.slice(1).toLowerCase();
-               //console.log(day);
-               let subject = $(this).parent().prev().prev().children().first().text();
-               subject.trim();
-               //console.log(subject);
-               model.setHomework(day, subject, content);
-               elem.attr('contenteditable', false);
-           });
+            $('.homework-save').on('click', function() {
+                const elem = $(this).next();
+                const content = elem.text();
+                let day = elem.parent().attr('id');
+                day = day.substr(0, day.length - 2);
+                day = day[0].toUpperCase() + day.slice(1).toLowerCase();
+                // console.log(day);
+                const subject = $(this).parent().prev().prev().children().first().text();
+                subject.trim();
+                // console.log(subject);
+                model.setHomework(day, subject, content);
+                elem.attr('contenteditable', false);
+            });
 
-           view.displaySubjects();
-           view.displayHomeworks();
+            view.displaySubjects();
+            view.displayHomeworks();
         },
 
     };
 
-    let view = {
+    const view = {
         displaySubjects: function() {
-            let subjects = model.getAllSubjects();
-            //console.log(subjects);
-            let days = Object.keys(subjects);
-            //console.log(days);
+            const subjects = model.getAllSubjects();
+            // console.log(subjects);
+            const days = Object.keys(subjects);
+            // console.log(days);
             days.forEach(function(elem) {
-                let daySubjects = subjects[elem];
-                //console.log(daySubjects);
-                let paragraphs = document.querySelectorAll(`span[class*="${elem.toLowerCase()}"]`);
-                //console.log(paragraphs);
+                const daySubjects = subjects[elem];
+                // console.log(daySubjects);
+                const paragraphs = document.querySelectorAll(`span[class*="${elem.toLowerCase()}"]`);
+                // console.log(paragraphs);
                 for (let i = 0; i < daySubjects.length; i++) {
-                    let text = document.createTextNode(daySubjects[i]);
+                    const text = document.createTextNode(daySubjects[i]);
                     paragraphs[i].appendChild(text);
                 }
             });
         },
 
         displayHomeworks: function() {
-            let homeworks = model.getAllHomeworks();
-            //console.log(homeworks);
-            let days = Object.keys(homeworks);
-            //console.log(days);
+            const homeworks = model.getAllHomeworks();
+            // console.log(homeworks);
+            const days = Object.keys(homeworks);
+            // console.log(days);
             days.forEach(function(elem) {
-               let selector = elem.toLowerCase();
-               let dayHomeworks = homeworks[elem];
-               //console.log(dayHomeworks);
-               let subjects = Object.keys(dayHomeworks);
-               // console.log(subjects);
-               for (let i = 0; i < subjects.length; i++) {
-                   let div = $("#" + selector + "_" + (i + 1)).children().eq(2);
-                   // console.log(div);
-                   div.append("<p>" + dayHomeworks[subjects[i]] + "</p>");
-               }
+                const selector = elem.toLowerCase();
+                const dayHomeworks = homeworks[elem];
+                // console.log(dayHomeworks);
+                const subjects = Object.keys(dayHomeworks);
+                // console.log(subjects);
+                for (let i = 0; i < subjects.length; i++) {
+                    const div = $("#" + selector + "_" + (i + 1)).children().eq(2);
+                    // console.log(div);
+                    div.append("<p>" + dayHomeworks[subjects[i]] + "</p>");
+                }
             });
-        }
+        },
     };
 
     controller.init();

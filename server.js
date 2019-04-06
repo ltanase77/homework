@@ -8,9 +8,10 @@ app.set('view engine', 'pug');
 
 app.get('/', function(req, res) {
     res.render('index', {
-        days: ["luni", "marti", "miercuri", "joi", "vineri"]
+        days: ["luni", "marti", "miercuri", "joi", "vineri"],
     });
 });
+
 
 // Using the static files middleware
 app.use(express.static(__dirname + '/static'));
