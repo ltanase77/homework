@@ -12,11 +12,6 @@ app.get('/', function(req, res) {
     });
 });
 
-app.get('/test', function(req, res) {
-    res.render('test', {
-        days: ["luni", "marti", "miercuri", "joi", "vineri"],
-    });
-});
 
 // Using the static files middleware
 app.use(express.static(__dirname + '/static'));
