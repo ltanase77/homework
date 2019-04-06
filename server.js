@@ -8,7 +8,13 @@ app.set('view engine', 'pug');
 
 app.get('/', function(req, res) {
     res.render('index', {
-        days: ["luni", "marti", "miercuri", "joi", "vineri"]
+        days: ["luni", "marti", "miercuri", "joi", "vineri"],
+    });
+});
+
+app.get('/test', function(req, res) {
+    res.render('test', {
+        days: ["luni", "marti", "miercuri", "joi", "vineri"],
     });
 });
 
