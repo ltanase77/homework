@@ -6,7 +6,7 @@ block content
         .row
             each day, index in days
                 .row.flex-column.col-content
-                    .text-center.border.col-sm.text-uppercase.font-weight-bold(data-toggle="collapse" href="#" + day role="button" aria-expanded="false" aria-controls=day)=day
+                    .text-center.border.col-sm.text-uppercase.font-weight-bold.day(data-toggle="collapse" href="#" + day role="button" aria-expanded="false" aria-controls=day)=day
                     each num in [1,2,3,4,5,6]
                         .col-sm.border.text-center(class="order-sm-" + index)
                             .subject
